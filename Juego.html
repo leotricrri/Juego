@@ -1,0 +1,271 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FINAL</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    
+
+</head>
+
+
+
+<body>
+ 
+    <form name='formulario' id='formId' method='post'>
+        <div id='formu'>
+        <input type='text' name='nombre' id='nombre'  placeholder='Juan'></input>
+        <input type='text' name='apellido' id='apellido'  placeholder='Lopez'></input>
+        <input type='text' name='email' id='email' placeholder='JLopez@dominio.com'></input>
+        <input 	type='button' name='validar' id='validar' onClick=validarForm() value='JUGAR'></input>
+        </div>
+    </form>   
+
+<p id="salida">NIVEL 1</p>
+<p id="salida1">PARA JUGAR INGRESE LOS DATOS</p>
+
+<div id='aparatoDiv'>
+<table id='aparato'>
+    <tr>
+        <td id='verde' onclick='cargarBoton1(this)' ></td>
+        <td id='rojo' onclick='cargarBoton1(this)' ></td>
+    </tr>
+    
+    <tr>
+        <td id='amarillo' onclick='cargarBoton1(this)'  ></td>
+        <td id='azul' onclick='cargarBoton1(this)' ></td>
+    </tr>
+</table>
+</div>
+<div id="boton1" style="display: none">
+    <button id='boton' onclick="comenzar()">JUGAR</button>
+    <button id='botona' onclick="terminar()">REINICIAR</button>
+    <input type="button" id='botonb' value="CAMBIAR JUGADOR" onclick="location.reload()"/>
+</div>
+
+
+
+
+<script>
+        
+    var jug1=new Array();
+    var cpu=new Array();
+    var guia=0;
+    var v=0;
+    var cont=0;
+    var j=0;
+    var i=0;
+    var bBloq=0;
+    
+
+    function comenzar(){
+      aparatoDiv.style.display = "block";
+      boton1.style.display = "block";
+      $('#boton').attr("disabled", true);
+      $('#botona').attr("disabled", false);  
+      resetear();
+      setTimeout( arraGuardarNumeros, 800);
+    }
+
+    function terminar(){
+      $("#arraGuardarNumeros").finish();
+      resetear();
+      salida1.innerHTML =  'VA DE VUELTA PRESTA ATENCION'; 
+      aparatoDiv.style.display = "none";
+      boton1.style.display = "none";
+      $('#boton').attr("disabled", false);
+      $('#botona').attr("disabled", true);   
+      setTimeout(comenzar, 1500);
+    }
+
+    function resetear(){
+     document.body.style.backgroundColor = "#7c5757";
+     jug1=new Array();
+     cpu=new Array();
+     guia=0;
+     v=0;
+     cont=0;
+     j=0;
+     i=0;
+     bBloq=0;
+     salida.innerHTML = 'NIVEL ' + 1;
+     salida1.innerHTML = 'MIRA LA SECUENCIA';
+    }
+    
+   
+
+  function bloqBot(){ //BLOQUEA LOS BOTONES PARA QUE NO PUEDA APRETAR MIENTRAS MUESTRA LA SECUENCIA
+      bBloq=1;
+  }    
+
+  function desbloqBot(){
+    bBloq=0;
+    salida1.innerHTML =  'JUGA'; //SE DESBLOQUEAN LOS BOTONES PARA QUE PUEDA JUGAR
+  }
+
+  function arraGuardarNumeros(){
+    bloqBot();
+      if(guia==0){
+           cpu[0]= Math.floor(Math.random()*4) + 1;
+                      
+           if(cpu[0]==1){
+                    document.getElementById('verde').style.backgroundColor = "#4EFE4E";
+                     setTimeout(function(){document.getElementById('verde').style.backgroundColor = '#049E03'}, 500);
+           }else {
+                    if(cpu[0]==2){
+                             document.getElementById('rojo').style.backgroundColor = "#FD2D2D";
+                             setTimeout(function(){document.getElementById('rojo').style.backgroundColor = '#AE0404'}, 500);
+                    }else{
+                        if(cpu[0]==3){
+                             document.getElementById('amarillo').style.backgroundColor = "#FDFD13";
+                             setTimeout(function(){document.getElementById('amarillo').style.backgroundColor = '#CAC902'}, 500);
+                        }else{
+                            document.getElementById('azul').style.backgroundColor = "#4A4AFD";
+                             setTimeout(function(){document.getElementById('azul').style.backgroundColor = '#0404A6'},500);
+                        }
+                    }
+            }
+            guia++;
+            setTimeout( desbloqBot, 800);
+         
+            
+       }else{
+          cpu[guia]= Math.floor(Math.random()*4) + 1;
+          i=0;
+          if(i<guia){
+            setTimeout( sec, 1000);
+           }
+            
+           function sec(){ 
+                    j=i+1
+                                              
+                if(cpu[i]==1){
+                    document.getElementById('verde').style.backgroundColor = "#4EFE4E";
+                     setTimeout(function(){document.getElementById('verde').style.backgroundColor = '#049E03'}, 500);
+                }else {
+
+                    if(cpu[i]==2){
+                             document.getElementById('rojo').style.backgroundColor = "#FD2D2D";
+                             setTimeout(function(){document.getElementById('rojo').style.backgroundColor = '#AE0404'}, 500);
+                    }else{
+                        if(cpu[i]==3){
+                             document.getElementById('amarillo').style.backgroundColor = "#FDFD13";
+                             setTimeout(function(){document.getElementById('amarillo').style.backgroundColor = '#CAC902'}, 500);
+                        }else{
+                            document.getElementById('azul').style.backgroundColor = "#4A4AFD";
+                             setTimeout(function(){document.getElementById('azul').style.backgroundColor = '#0404A6'}, 500);
+                        }
+                    }
+                }
+            i++;
+            if(i<guia){
+                setTimeout( sec, 1000);
+            }else{
+                setTimeout( desbloqBot, 800);
+            
+            }
+            
+        }
+       cont=0;
+       guia++;
+       salida.innerHTML = 'NIVEL ' + guia ; 
+       salida1.innerHTML =  'MIRA LA SECUENCIA'; 
+     
+       }
+  }
+  
+  
+  
+ 
+  function cargarBoton1(comp){
+      if (bBloq==0){
+        if(cont<guia){
+         let color = comp.id;
+          switch(color){
+                      case 'verde':
+                          color=1;
+                          document.getElementById('verde').style.backgroundColor = "#4EFE4E";
+                     setTimeout(function(){document.getElementById('verde').style.backgroundColor = '#049E03'}, 250);
+                          break;
+                      case 'rojo':
+                         color=2;
+                         document.getElementById('rojo').style.backgroundColor = "#FD2D2D";
+                             setTimeout(function(){document.getElementById('rojo').style.backgroundColor = '#AE0404'}, 250);
+                          break;
+                      case 'amarillo':
+                         color=3;
+                         document.getElementById('amarillo').style.backgroundColor = "#FDFD13";
+                             setTimeout(function(){document.getElementById('amarillo').style.backgroundColor = '#CAC902'}, 250);
+                          break;
+                      case 'azul':
+                         color=4;
+                         document.getElementById('azul').style.backgroundColor = "#4A4AFD";
+                             setTimeout(function(){document.getElementById('azul').style.backgroundColor = '#0404A6'}, 250);
+                          break;
+                  }
+         jug1[cont]=color;
+         resta=guia-cont;
+
+          if(resta>1){ 
+             
+              if(jug1[cont]==cpu[cont]){
+              cont++;
+              }else{
+                aparatoDiv.style.display = "none";
+                salida.innerHTML = 'PERDISTE EN NIVEL ' + guia;
+                document.body.style.backgroundColor = "black";
+                salida1.innerHTML =  'PRESIONA JUGAR SI QUERES INTENTAR DE NUEVO';
+                $('#boton').attr("disabled", false);
+                $('#botona').attr("disabled", true); 
+              }
+          }else{
+              
+              if(jug1[cont]==cpu[cont]){
+                    cont++;
+                    arraGuardarNumeros();
+              }else{
+                aparatoDiv.style.display = "none";
+                salida.innerHTML = 'PERDISTE EN NIVEL ' + guia;
+                document.body.style.backgroundColor = "black";
+                salida1.innerHTML =  'PRESIONA JUGAR SI QUERES INTENTAR DE NUEVO';
+                $('#boton').attr("disabled", false);
+                $('#botona').attr("disabled", true); 
+              }
+           }
+        }
+     }
+    }
+  
+    function validarForm(){
+
+        var mail=document.getElementById('email').value;
+        var re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;  
+        var vValido = true;
+
+        if(document.getElementById('nombre').value.trim() == ''){
+           alert('Debe ingresar el nombre');
+           document.getElementById('nombre').focus();
+           vValido = false;
+        }else if(document.getElementById('apellido').value.trim() == ''){
+           alert('Debe ingresar el Apellido');
+           document.getElementById('apellido').focus();
+           vValido = false;
+        } else if(!re.exec(mail)){
+           alert('Debe ingresar el email correcto');
+           document.getElementById('email').focus();
+           vValido = false;    
+        }else{
+            boton1.style.display = "block";
+            formu.style.display = "none";
+            comenzar();
+        }
+        
+    } 
+  
+  </script>
+</body>
+
+</html>
